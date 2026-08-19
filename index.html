@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>嘉会医疗在线</title>
+    <title>嘉会医疗在线 - 小程序跳转</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,7 +18,7 @@
         .card {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 40px 28px;
             max-width: 380px;
             width: 100%;
             text-align: center;
@@ -43,27 +43,46 @@
             font-weight: bold;
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
-        h1 { font-size: 22px; color: #1f2937; margin-bottom: 8px; }
-        .subtitle { color: #6b7280; font-size: 14px; margin-bottom: 25px; }
-
-        .status-tag {
+        h1 { font-size: 22px; color: #1f2937; margin-bottom: 6px; }
+        .subtitle { color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+        
+        .env-badge {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 4px 14px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
             margin-bottom: 20px;
         }
-        .status-weixin { background: #d1fae5; color: #065f46; }
-        .status-external { background: #fef3c7; color: #92400e; }
-
-        .panel-weixin {
-            background: #f0fdf4;
-            border: 1px solid #86efac;
+        .badge-weixin { background: #d1fae5; color: #065f46; }
+        .badge-browser { background: #fef3c7; color: #92400e; }
+        
+        .info-box {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .info-row:last-child { margin-bottom: 0; }
+        .info-label { color: #64748b; }
+        .info-value { color: #334155; font-family: monospace; font-weight: 500; }
+        
+        .panel {
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 16px;
             text-align: left;
+        }
+        .panel-weixin {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
         }
         .panel-weixin h3 {
             color: #166534;
@@ -71,7 +90,7 @@
             margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         .panel-weixin ol {
             color: #15803d;
@@ -86,7 +105,26 @@
             border-radius: 4px;
             font-weight: 600;
         }
-
+        
+        .panel-browser {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+        }
+        .panel-browser h3 {
+            color: #92400e;
+            font-size: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .panel-browser p {
+            color: #78350f;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
         .link-box {
             background: #f8fafc;
             border: 2px dashed #cbd5e1;
@@ -114,7 +152,7 @@
             user-select: all;
             -webkit-user-select: all;
         }
-
+        
         .btn {
             display: block;
             width: 100%;
@@ -127,56 +165,47 @@
             text-decoration: none;
             transition: all 0.2s;
             margin-bottom: 12px;
+            text-align: center;
         }
-        .btn-primary {
+        .btn-green {
             background: linear-gradient(135deg, #07c160 0%, #05a350 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(7, 193, 96, 0.3);
         }
-        .btn-primary:active { transform: scale(0.98); box-shadow: 0 2px 6px rgba(7, 193, 96, 0.2); }
-        .btn-secondary {
+        .btn-green:active { transform: scale(0.98); }
+        .btn-gray {
             background: #f1f5f9;
             color: #475569;
         }
-        .btn-secondary:active { background: #e2e8f0; }
+        .btn-gray:active { background: #e2e8f0; }
         .btn-outline {
             background: white;
             color: #667eea;
             border: 2px solid #667eea;
         }
         .btn-outline:active { background: #f5f3ff; }
-
-        .panel-external {
-            text-align: center;
-        }
-        .panel-external p {
-            color: #4b5563;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-        .scheme-box {
+        
+        .scheme-display {
             background: #f3f4f6;
             border-radius: 10px;
             padding: 12px;
             font-size: 12px;
             color: #6b7280;
             word-break: break-all;
-            margin-bottom: 16px;
+            margin: 12px 0;
             font-family: monospace;
             text-align: left;
         }
-
+        
         .notice {
             margin-top: 16px;
             font-size: 12px;
             color: #9ca3af;
-            line-height: 1.5;
+            line-height: 1.6;
         }
-        .notice a { color: #667eea; }
-
+        
         .hidden { display: none !important; }
-
+        
         .toast {
             position: fixed;
             top: 50%;
@@ -195,27 +224,6 @@
             from { opacity: 0; transform: translate(-50%, -40%); }
             to { opacity: 1; transform: translate(-50%, -50%); }
         }
-
-        .app-info {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 16px;
-            text-align: left;
-        }
-        .app-info-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 6px;
-        }
-        .app-info-row:last-child { margin-bottom: 0; }
-        .app-info-row span:last-child {
-            color: #334155;
-            font-family: monospace;
-            font-weight: 500;
-        }
     </style>
 </head>
 <body>
@@ -223,104 +231,109 @@
         <div class="logo">嘉</div>
         <h1>嘉会医疗在线</h1>
         <p class="subtitle">JiahuiHealth 官方小程序</p>
-
-        <div class="app-info">
-            <div class="app-info-row">
-                <span>AppID</span>
-                <span>wxb1e7bd79f0cd54f9</span>
+        
+        <div class="info-box">
+            <div class="info-row">
+                <span class="info-label">AppID</span>
+                <span class="info-value">wxb1e7bd79f0cd54f9</span>
             </div>
-            <div class="app-info-row">
-                <span>运营主体</span>
-                <span>上海嘉会国际医院</span>
+            <div class="info-row">
+                <span class="info-label">原始ID</span>
+                <span class="info-value">gh_d36264ac351d</span>
             </div>
         </div>
-
-        <span id="statusTag" class="status-tag">检测环境中...</span>
-
+        
+        <span id="envBadge" class="env-badge">检测环境中...</span>
+        
+        <!-- 微信内面板 -->
         <div id="weixinPanel" class="hidden">
-            <div class="panel-weixin">
-                <h3>📱 微信内打开方式</h3>
+            <div class="panel panel-weixin">
+                <h3>📱 请在微信内按以下步骤操作</h3>
                 <ol>
                     <li><span class="highlight">长按下方链接</span>，选择「复制」</li>
                     <li>打开任意微信聊天窗口</li>
                     <li>粘贴链接并发送</li>
-                    <li>点击发送后的蓝色链接进入小程序</li>
+                    <li>点击发送后的蓝色链接即可进入小程序</li>
                 </ol>
             </div>
-
+            
             <div class="link-box">
                 <span class="link-label">长按复制此链接</span>
                 <div class="link-text">#小程序://JiahuiHealth嘉会医疗在线/D2BcRALsijdgJsq</div>
             </div>
-
-            <button class="btn btn-secondary" onclick="copyLink()">📋 一键复制链接</button>
+            
+            <button class="btn btn-gray" onclick="copyLink()">📋 一键复制链接</button>
+            
+            <p class="notice">
+                💡 提示：受微信安全策略限制，网页内无法直接跳转小程序，请按上方步骤操作。
+            </p>
         </div>
-
-        <div id="externalPanel" class="hidden">
-            <div class="panel-external">
+        
+        <!-- 浏览器外面板 -->
+        <div id="browserPanel" class="hidden">
+            <div class="panel panel-browser">
+                <h3>🌐 检测到外部浏览器</h3>
                 <p>您当前不在微信内，可通过以下方式打开小程序：</p>
-
-                <button class="btn btn-primary" onclick="openByScheme()">🚀 一键打开小程序</button>
-
-                <div class="scheme-box">
-                    weixin://dl/business/?appid=wxb1e7bd79f0cd54f9
-                </div>
-
-                <button class="btn btn-outline" onclick="copyLink()">📋 复制链接到微信打开</button>
-
-                <p class="notice">
-                    若无法自动唤起微信，请复制链接发送到微信聊天窗口中打开。<br>
-                    支持 iOS / Android 系统。
-                </p>
             </div>
+            
+            <button class="btn btn-green" onclick="openByScheme()">🚀 一键唤起微信打开小程序</button>
+            
+            <div class="scheme-display">
+                weixin://dl/business/?appid=wxb1e7bd79f0cd54f9
+            </div>
+            
+            <button class="btn btn-outline" onclick="copyLink()">📋 复制小程序链接到微信打开</button>
+            
+            <p class="notice">
+                💡 若按钮无法唤起微信，请复制上方链接发送到微信聊天窗口中打开。<br>
+                支持 iOS / Android 系统。
+            </p>
         </div>
-
-        <p class="notice" id="bottomNotice"></p>
     </div>
 
     <script>
         const CONFIG = {
             appid: 'wxb1e7bd79f0cd54f9',
+            ghId: 'gh_d36264ac351d',
             miniLink: '#小程序://JiahuiHealth嘉会医疗在线/D2BcRALsijdgJsq',
             scheme: 'weixin://dl/business/?appid=wxb1e7bd79f0cd54f9'
         };
-
+        
         function isWeixin() {
             return /MicroMessenger/i.test(navigator.userAgent);
         }
-
+        
         function isIOS() {
             return /iPhone|iPad|iPod/i.test(navigator.userAgent);
         }
-
+        
         function init() {
-            const statusTag = document.getElementById('statusTag');
+            const badge = document.getElementById('envBadge');
             const weixinPanel = document.getElementById('weixinPanel');
-            const externalPanel = document.getElementById('externalPanel');
-            const bottomNotice = document.getElementById('bottomNotice');
-
+            const browserPanel = document.getElementById('browserPanel');
+            
             if (isWeixin()) {
-                statusTag.textContent = '✅ 检测到微信环境';
-                statusTag.className = 'status-tag status-weixin';
+                badge.textContent = '✅ 当前在微信内';
+                badge.className = 'env-badge badge-weixin';
                 weixinPanel.classList.remove('hidden');
-                bottomNotice.textContent = '提示：受微信安全策略限制，网页内无法直接跳转小程序，请按上方步骤操作。';
             } else {
-                statusTag.textContent = '⚠️ 检测到外部浏览器';
-                statusTag.className = 'status-tag status-external';
-                externalPanel.classList.remove('hidden');
-                bottomNotice.textContent = '提示：若按钮无法唤起微信，请使用「复制链接」功能，粘贴到微信中打开。';
+                badge.textContent = '⚠️ 当前在外部浏览器';
+                badge.className = 'env-badge badge-browser';
+                browserPanel.classList.remove('hidden');
             }
         }
-
+        
         function openByScheme() {
             window.location.href = CONFIG.scheme;
             setTimeout(function() {
                 if (document.visibilityState === 'visible') {
-                    showToast(isIOS() ? '❌ 无法唤起微信，请尝试复制链接到微信打开' : '❌ 唤起失败，请手动复制链接到微信');
+                    showToast(isIOS() 
+                        ? '❌ 无法唤起微信，请复制链接到微信打开' 
+                        : '❌ 唤起失败，请复制链接到微信打开');
                 }
             }, 2000);
         }
-
+        
         function copyLink() {
             const text = CONFIG.miniLink;
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -333,13 +346,13 @@
                 fallbackCopy(text);
             }
         }
-
+        
         function fallbackCopy(text) {
             const textarea = document.createElement('textarea');
             textarea.value = text;
             textarea.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none;z-index:-1;';
             document.body.appendChild(textarea);
-
+            
             if (isIOS()) {
                 const range = document.createRange();
                 range.selectNodeContents(textarea);
@@ -350,25 +363,27 @@
             } else {
                 textarea.select();
             }
-
+            
             try {
                 const success = document.execCommand('copy');
-                showToast(success ? '✅ 复制成功！快去微信聊天窗口粘贴吧' : '❌ 复制失败，请长按链接手动复制');
+                showToast(success 
+                    ? '✅ 复制成功！快去微信聊天窗口粘贴吧' 
+                    : '❌ 复制失败，请长按上方链接手动复制');
             } catch (err) {
-                showToast('❌ 复制失败，请长按链接手动复制');
+                showToast('❌ 复制失败，请长按上方链接手动复制');
             }
             document.body.removeChild(textarea);
         }
-
+        
         function showToast(msg) {
             const existing = document.querySelector('.toast');
             if (existing) existing.remove();
-
+            
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.textContent = msg;
             document.body.appendChild(toast);
-
+            
             setTimeout(function() {
                 toast.style.opacity = '0';
                 toast.style.transition = 'opacity 0.3s';
@@ -377,7 +392,7 @@
                 }, 300);
             }, 2500);
         }
-
+        
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
